@@ -28,12 +28,28 @@ public class Main {
                 yearData.addYear("resources/y.2021.csv");
 
             } else if (command == 3) {
-               /* int expenses=mReportFirst.sumExpensesMonth()+mReportSecond.sumExpensesMonth()+mReportThird.sumExpensesMonth();
-                int inCome=mReportFirst.sumInComeMonth()+mReportSecond.sumInComeMonth()+mReportThird.sumInComeMonth();
-                int expensesYears=
-                int inComeYears=mReportFirst.sumInComeMonth()+mReportSecond.sumInComeMonth()+mReportThird.sumInComeMonth();
-*/
-                System.out.println("Что вы хотиете сделать?");
+                int inCome=0;
+                int expense=0;
+                for (int i = 0; i < 3; i++) {
+                   int expensesMonthOfYear=yearData.sumExpensesMonth(i+1);
+                   int expensesMonth=monthData.sumExpensesMonth(i);
+                   if(expensesMonthOfYear!=expensesMonth){
+                        System.out.println("В "+(i+1)+" месяце расходы внесены с ошибкой");
+                    }
+                   expense+=expensesMonthOfYear-expensesMonth;
+                }
+                for (int i = 0; i < 3; i++) {
+                    int inComeMonthOfYear=yearData.sumInComeMonth(i+1);
+                    int inComeMonth=monthData.sumInComeMonth(i);
+                    if(inComeMonthOfYear!=inComeMonth){
+                        System.out.println("В "+(i+1)+" месяце доходы внесены с ошибкой");
+                    }
+                    inCome+=inComeMonthOfYear-inComeMonth;
+                }
+                if (expense==0 && inCome==0){
+                    System.out.println("Проверка выполнена. Расхождение в отчетах не выявлено");
+                }
+
 
             } else if (command == 4) {
 

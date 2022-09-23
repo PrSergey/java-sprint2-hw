@@ -43,15 +43,21 @@ public class MonthReport {
         monthsStat.add(mdata);
     }
 
-   /* public int sumExpensesMonth() {
+    public int sumExpensesMonth(int month) {
         int expenses=0;
-        for(String category: data.keySet()){
-            MonthReportRecord stat=data.get(category);
-            expenses+=stat.expenses;
-            }
+        for (Integer ex: monthsStat.get(month).catToSpending.values())
+            if (ex<0)
+        expenses+=Math.abs(ex);
         return expenses;
     }
-    public int sumInComeMonth() {
+    public int sumInComeMonth(int month) {
+        int inCome=0;
+        for (Integer ex: monthsStat.get(month).catToSpending.values())
+            if (ex>0)
+                inCome+=Math.abs(ex);
+        return inCome;
+    }
+    /*ublic int sumInComeMonth() {
         int income=0;
         for(String category: data.keySet()){
             MonthReportRecord stat=data.get(category);

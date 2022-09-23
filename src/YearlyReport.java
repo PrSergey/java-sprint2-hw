@@ -30,15 +30,17 @@ public class YearlyReport {
             }
         }
     }
-    public int sumExpensesMonth() {
+    public int sumExpensesMonth(int month) {
         int expenses=0;
-        for(Integer year: data.keySet()){
-            YearlyReportRecord stat=data.get(year);
-            expenses+=stat.expenses;
-        }
+        expenses+=data.get(month).expenses;
         return expenses;
     }
 
+    public int sumInComeMonth(int month) {
+        int income=0;
+        income+=data.get(month).income;
+        return income;
+    }
 
 
     public int calcSomeStatistics() {
