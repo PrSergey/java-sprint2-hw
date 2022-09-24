@@ -7,6 +7,7 @@ public class YearlyReport {
     public HashMap<Integer, YearlyReportRecord> data = new HashMap<>();
     String path;
     public YearlyReport(){
+
         this.path=path;
     }
 
@@ -14,11 +15,11 @@ public class YearlyReport {
         String text = readFileContentsOrNull(path);
         String[] lines = text.split("\r?\n");
         for (int i = 1; i < lines.length; i++) {
-            String line = lines[i]; // "02,810000,false"
-            String[] parts = line.split(","); // ["02", "810000", "false"]
-            int month = Integer.parseInt(parts[0]); // 2
-            int amount = Integer.parseInt(parts[1]); // 810000
-            boolean isExpense = Boolean.parseBoolean(parts[2]); // false
+            String line = lines[i];
+            String[] parts = line.split(",");
+            int month = Integer.parseInt(parts[0]);
+            int amount = Integer.parseInt(parts[1]);
+            boolean isExpense = Boolean.parseBoolean(parts[2]);
             if (!data.containsKey(month)) {
                 data.put(month, new YearlyReportRecord(month));
             }
@@ -30,6 +31,8 @@ public class YearlyReport {
             }
         }
     }
+
+
     public int sumExpensesMonth(int month) {
         int expenses=0;
         expenses+=data.get(month).expenses;
@@ -43,10 +46,7 @@ public class YearlyReport {
     }
 
 
-    public int calcSomeStatistics() {
-        //....
-        return 0;
-    }
+
 
     private String readFileContentsOrNull(String path) {
         try {

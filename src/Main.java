@@ -4,13 +4,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
-
         MonthReport monthData = new MonthReport();
         YearlyReport yearData=new YearlyReport();
 
-           /* MonthReport mReportSecond = new MonthReport();
-            MonthReport mReportThird = new MonthReport();*/
-        /*YearlyReport yReport = new YearlyReport("resources/y.2021.csv");*/
+
 
         while (true) {
             printMenu();
@@ -52,26 +49,35 @@ public class Main {
 
 
             } else if (command == 4) {
+                for (int i = 0; i < 3; i++) {
+                    monthData.infoMonthExpenses(i);
+                    monthData.infoMonthInCome(i);
+                    }
 
             } else if (command == 5) {
+                int profit=0;
+                int sumExpenses=0;
+                int sumInCome=0;
+                for (int i = 1; i <4; i++) {
+                    int expenses=yearData.data.get(i).expenses;
+                    int inCome=yearData.data.get(i).income;
+                    profit=inCome-expenses;
+                    System.out.println("Прибыль за " +i+" месяц составила "+profit);
+                    sumExpenses+=expenses;
+                    sumInCome+=inCome;
+                }
+                System.out.println("Средний расход за месяц составил " +(sumExpenses/3));
+                System.out.println("Средний доход за месяц составил " +(sumInCome/3));
 
             }else if (command==0){
 
                 break;
             } else {
-
+                System.out.println("Данной команды нет.");
 
             }
         }
-
-
-
     }
-
-    public static void month(){
-
-    }
-
     public static void printMenu(){
         System.out.println("Что вы хотиете сделать?");
         System.out.println("1 - Считать все месячные отчёты");

@@ -3,11 +3,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 
 public class MonthReport {
     public ArrayList<MonthReportRecord> monthsStat = new ArrayList<>();
-
-    /*public HashMap<Integer, MonthReportRecord> data = new HashMap<>();*/
     String path;
     int month;
     public  MonthReport(){
@@ -21,10 +20,10 @@ public class MonthReport {
         String[] lines = text.split("\r?\n");
         MonthReportRecord mdata = new MonthReportRecord(month);
         for (int i = 1; i < lines.length; i++) {
-            String line = lines[i]; // "Коньки,TRUE,50,2000"
-            String[] parts = line.split(","); // ["Коньки", "TRUE", "50", "2000"]
-            String itemName = parts[0]; // "Коньки"
-            boolean isExpense = Boolean.parseBoolean(parts[1]); // false
+            String line = lines[i];
+            String[] parts = line.split(",");
+            String itemName = parts[0];
+            boolean isExpense = Boolean.parseBoolean(parts[1]);
             int quantity = Integer.parseInt(parts[2]);
             int sumOfOne = Integer.parseInt(parts[3]);
             int sumAll=quantity*sumOfOne;
@@ -50,6 +49,8 @@ public class MonthReport {
         expenses+=Math.abs(ex);
         return expenses;
     }
+
+
     public int sumInComeMonth(int month) {
         int inCome=0;
         for (Integer ex: monthsStat.get(month).catToSpending.values())
@@ -57,22 +58,38 @@ public class MonthReport {
                 inCome+=Math.abs(ex);
         return inCome;
     }
-    /*ublic int sumInComeMonth() {
-        int income=0;
-        for(String category: data.keySet()){
-            MonthReportRecord stat=data.get(category);
-            income+=stat.income;
+
+
+   public void infoMonthExpenses(int month) {
+        int expenses=0;
+        String category="";
+        for (String cat: monthsStat.get(month).catToSpending.keySet()){
+            int expense=monthsStat.get(month).catToSpending.get(cat);
+            if (expense<expenses){
+                expenses=expense;
+                category=cat;
+            }
         }
-        return income;
+       System.out.println("В " +(month+1)+" месяце самая большая трата "+category+" составила "+Math.abs(expenses));
+    }
+
+
+    public void infoMonthInCome(int month) {
+        int inCome=0;
+        String category="";
+        for (String cat: monthsStat.get(month).catToSpending.keySet()){
+            int inComeCat=monthsStat.get(month).catToSpending.get(cat);
+            if (inComeCat>inCome){
+                inCome=inComeCat;
+                category=cat;
+            }
+        }
+        System.out.println("В " +(month+1)+" месяце самый прибыльный товар был в категории "+category+" и прибыль составила "+Math.abs(inCome));
     }
 
 
 
-    public int calcSomeStatistics() {
-        //....
-        return 0;
-    }
-*/
+
     private String readFileContentsOrNull(String path) {
         try {
             return Files.readString(Path.of(path));
