@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -6,25 +10,35 @@ public class Main {
         Scanner scanner=new Scanner(System.in);
         MonthReport monthData = new MonthReport();
         YearlyReport yearData=new YearlyReport();
-
+        KeepFile dataSave=new KeepFile();
+        HashMap<Integer, String> allMonth;
+        List<String> year;
+        boolean monthCheck=false;
+        boolean yearCheck=false;
 
 
         while (true) {
             printMenu();
             int command= scanner.nextInt();
             if (command == 1) {
-                for (int i = 1; i < 4; i++) {
-                    int month=i;
-                    monthData.addMonth(i, "resources/m.20210"+i+".csv");
-
-            }
-                System.out.println("Что вы хотиете сделать?");
-
-
+                dataSave.saveFileMonth();
+               allMonth=dataSave.allMonth;
+                for (Integer month: allMonth.keySet()) {
+                    monthData.addMonth(month, allMonth.get(month));
+                }
+                monthCheck=true;
+                System.out.println("Данные из месячного отчета считаны.");
             } else if (command == 2) {
-                yearData.addYear("resources/y.2021.csv");
+                dataSave.saveFileYears();
+                year=dataSave.year;
+                for (int i=0; i<year.size(); i++) {
+                    yearData.addYear(year.get(i));
+                }
+                yearCheck=true;
+                System.out.println("Данные из годового отчета считаны.");
 
             } else if (command == 3) {
+                    if (monthCheck&&yearCheck){
                 int inCome=0;
                 int expense=0;
                 for (int i = 0; i < 3; i++) {
@@ -46,15 +60,26 @@ public class Main {
                 if (expense==0 && inCome==0){
                     System.out.println("Проверка выполнена. Расхождение в отчетах не выявлено");
                 }
-
-
-            } else if (command == 4) {
-                for (int i = 0; i < 3; i++) {
-                    monthData.infoMonthExpenses(i);
-                    monthData.infoMonthInCome(i);
+                    }else if (monthCheck){
+                        System.out.println("Не считан годовой отчет");
+                    }else if (yearCheck){
+                        System.out.println("Не считан месячный отчет");
+                    }else {
+                        System.out.println("Не считаны отчеты");
                     }
 
+            } else if (command == 4) {
+                if (monthCheck) {
+                    for (int i = 0; i < 3; i++) {
+                        monthData.infoMonthExpenses(i);
+                        monthData.infoMonthInCome(i);
+                    }
+                }else{
+                    System.out.println("Не считан месячный отчет" );
+                }
+
             } else if (command == 5) {
+                if (yearCheck) {
                 int profit=0;
                 int sumExpenses=0;
                 int sumInCome=0;
@@ -68,7 +93,9 @@ public class Main {
                 }
                 System.out.println("Средний расход за месяц составил " +(sumExpenses/3));
                 System.out.println("Средний доход за месяц составил " +(sumInCome/3));
-
+                }else{
+                    System.out.println("Не считан годовой отчет" );
+                }
             }else if (command==0){
 
                 break;
@@ -87,4 +114,7 @@ public class Main {
         System.out.println("5 - Вывести информацию о годовом отчёте");
         System.out.println("0 - Выход");
     }
+
+
+
 }

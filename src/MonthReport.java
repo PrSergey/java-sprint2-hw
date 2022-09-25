@@ -2,11 +2,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.SortedMap;
+import java.util.List;
+
 
 public class MonthReport {
-    public ArrayList<MonthReportRecord> monthsStat = new ArrayList<>();
+    public List<MonthReportRecord> monthsStat = new ArrayList<>();
     String path;
     int month;
     public  MonthReport(){

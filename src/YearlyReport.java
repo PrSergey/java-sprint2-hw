@@ -2,9 +2,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 
 public class YearlyReport {
-    public HashMap<Integer, YearlyReportRecord> data = new HashMap<>();
+    public Map<Integer, YearlyReportRecord> data = new HashMap<>();
     String path;
     public YearlyReport(){
 
@@ -25,9 +26,13 @@ public class YearlyReport {
             }
             YearlyReportRecord mRecord = data.get(month);
             if (isExpense) {
-                mRecord.expenses += amount;
+                if (mRecord.expenses==0) {
+                    mRecord.expenses += amount;
+                }
             } else {
-                mRecord.income += amount;
+                if (mRecord.income==0) {
+                    mRecord.income += amount;
+                }
             }
         }
     }
