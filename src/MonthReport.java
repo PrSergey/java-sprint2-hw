@@ -7,16 +7,15 @@ import java.util.List;
 
 public class MonthReport {
     public List<MonthReportRecord> monthsStat = new ArrayList<>();
-    String path;
-    int month;
-    public  MonthReport(){
-        this.path=path;
-        this.month=month;
 
-    }
+
 
     public void  addMonth(Integer month, String path) {
         String text = readFileContentsOrNull(path);
+        if(text.equals(null)){
+            System.out.println("Нет данных за "+month+" месяц");
+            return;
+        }
         String[] lines = text.split("\r?\n");
         MonthReportRecord mdata = new MonthReportRecord(month);
         for (int i = 1; i < lines.length; i++) {
@@ -60,35 +59,24 @@ public class MonthReport {
     }
 
 
-   public void infoMonthExpenses(int month) {
+   public void infoMonth(int month) {
         int expenses=0;
-        String category="";
-        for (String cat: monthsStat.get(month).catToSpending.keySet()){
-            int expense=monthsStat.get(month).catToSpending.get(cat);
-            if (expense<expenses){
-                expenses=expense;
-                category=cat;
-            }
-        }
-       System.out.println("В " +(month+1)+" месяце самая большая трата "+category+" составила "+Math.abs(expenses));
-    }
-
-
-    public void infoMonthInCome(int month) {
         int inCome=0;
-        String category="";
+        String categoryExp="";
+        String categoryInCome="";
         for (String cat: monthsStat.get(month).catToSpending.keySet()){
-            int inComeCat=monthsStat.get(month).catToSpending.get(cat);
-            if (inComeCat>inCome){
-                inCome=inComeCat;
-                category=cat;
+            int money=monthsStat.get(month).catToSpending.get(cat);
+            if (money<expenses){
+                expenses=money;
+                categoryExp=cat;
+            } else if (money>inCome) {
+                inCome=money;
+                categoryInCome=cat;
             }
         }
-        System.out.println("В " +(month+1)+" месяце самый прибыльный товар был в категории "+category+" и прибыль составила "+Math.abs(inCome));
+       System.out.println("В " +(month+1)+" месяце самая большая трата "+categoryExp+" составила "+Math.abs(expenses));
+       System.out.println("В " +(month+1)+" месяце самый прибыльный товар был в категории "+categoryInCome+" и прибыль составила "+Math.abs(inCome));
     }
-
-
-
 
     private String readFileContentsOrNull(String path) {
         try {

@@ -6,14 +6,15 @@ import java.util.Map;
 
 public class YearlyReport {
     public Map<Integer, YearlyReportRecord> data = new HashMap<>();
-    String path;
-    public YearlyReport(){
 
-        this.path=path;
-    }
+
 
     public void addYear(String path) {
         String text = readFileContentsOrNull(path);
+        if(text.equals(null)){
+            System.out.println("Нет данных в годовом отчете");
+            return;
+        }
         String[] lines = text.split("\r?\n");
         for (int i = 1; i < lines.length; i++) {
             String line = lines[i];
